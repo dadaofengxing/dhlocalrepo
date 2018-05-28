@@ -27,6 +27,14 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.4.5.v20170502</version>
@@ -42,6 +50,16 @@
                         <!--<webInfIncludeJarPattern>.*/spring-[^/]*\.jar$</webInfIncludeJarPattern>-->
                         <contextPath>/mohui</contextPath>
                     </webAppConfig>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <!--<packagingExcludes>WEB-INF/web.xml</packagingExcludes>-->
+                    <!--<warName>${profiles.active}</warName>-->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <warName>elab-manage-elabers</warName>
                 </configuration>
             </plugin>
         </plugins>
@@ -93,6 +111,13 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>${spring.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>3.1.12</version>
             </dependency>
 
         </dependencies>
