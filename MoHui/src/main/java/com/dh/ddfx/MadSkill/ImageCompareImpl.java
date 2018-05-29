@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorConvertOp;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -28,67 +30,14 @@ public class ImageCompareImpl implements ImageCompareInterface{
 
 	@Override
 	public String getImageHASHString(InputStream is,String imageName,int choosing) throws IOException, SelfException {
-		BufferedImage img = ImageIO.read(is);
-	      
-	      /*  
-	       *重置图片大小为：64*64pixs 
-	       */
-	      img = resize(img, size, size);
-	      
-	      /*  
-	       *将图片色调全部转换为一种灰度级色调，方便二进制
-	       *处理，排除颜色对于图片匹配度的干扰
-	       */
-	      img = grayscale(img);
-	      
-	      double[][] vals = new double[size][size];
-	      
-	      for (int x = 0; x < img.getWidth(); x++) {
-	          for (int y = 0; y < img.getHeight(); y++) {
-	              vals[x][y] = getPixelRGB(img, x, y);
-	          }
-	      }
-	      
-	      /*  
-	       *  对获取的所有像素点的RGB值进行DCT计算
-	       *  DCT算法是专门针对于图像压缩计算方法，
-	       *  如果您感兴趣，请参看： 
-	       *  http://zh.wikipedia.org/wiki/%E7%A6%BB%E6%95%A3%E4%BD%99%E5%BC%A6%E5%8F%98%E6%8D%A2
-	       */
-	      long start = System.currentTimeMillis();
-	      double[][] dctVals = applyDCT(vals);
-	      
-	      
-	      /* 重置DCT，仅仅取压缩后的全图左上角8*8 pixs的区间作为代表
-	       * （因为此区间代表了变化低频区域，那么低频区的差异性更客观地代表图片整体的匹配度）
-	       */
-	      
-	      /* 
-	       * 计算DCT的平均值 
-	       */
-	      double total = 0;
-	      
-	      for (int x = 0; x < smallerSize; x++) {
-	          for (int y = 0; y < smallerSize; y++) {
-	              total += dctVals[x][y];
-	          }
-	      }
-	      total -= dctVals[0][0];
-	      
-	      double avg = total / (double) ((smallerSize * smallerSize) - 1);
-	  
-	      /*  
-	       * 深度转换DCT，将结果全部组成为0/1组合队列
-	       */
-	      String hash = "";
-	      
-	      for (int x = 0; x < smallerSize; x++) {
-	          for (int y = 0; y < smallerSize; y++) {
-	              if (x != 0 && y != 0) {
-	                  hash += (dctVals[x][y] > avg?"1":"0");
-	              }
-	          }
-	      }
+        double[][] dctVals = getDoubleArray(is);
+		/*
+		 * 深度转换DCT，将结果全部组成为0/1组合队列
+		 */
+		long start = System.currentTimeMillis();
+		List<String> list = new ArrayList<>();
+		getIntDctVal(dctVals,list);
+		String hash = list.get(0);
 	      if(choosing == 1){
 	    	  System.out.println("[INFO]对SourceImages中的图片名为["+imageName+"]进行的DCT图片计算完成,耗时: " + (System.currentTimeMillis() - start)+" ms");
 	      }else if(choosing == 2){
@@ -99,13 +48,97 @@ public class ImageCompareImpl implements ImageCompareInterface{
 	      return hash;
 	}
 
+	@Override
+	public int[][] getIntDctVal(double[][] dctVals,List<String> list) {
+		int[][] intDctVal = new int[dctVals.length][dctVals[0].length];
+
+		/* 重置DCT，仅仅取压缩后的全图左上角8*8 pixs的区间作为代表
+         * （因为此区间代表了变化低频区域，那么低频区的差异性更客观地代表图片整体的匹配度）
+         */
+
+		/*
+         * 计算DCT的平均值
+         */
+		double total = 0;
+
+		for (int x = 0; x < smallerSize; x++) {
+            for (int y = 0; y < smallerSize; y++) {
+                total += dctVals[x][y];
+            }
+        }
+		total -= dctVals[0][0];
+
+		double avg = total / (double) ((smallerSize * smallerSize) - 1);
+
+
+		String hash = "";
+		for (int x = 0; x < smallerSize; x++) {
+            for (int y = 0; y < smallerSize; y++) {
+                if (x != 0 && y != 0) {
+                    intDctVal[x][y] = dctVals[x][y] > avg?1:0;
+                    hash += (intDctVal[x][y]);
+                }
+            }
+        }
+        if(null != list){
+			list.add(hash);
+		}
+		return intDctVal;
+	}
+
+	@Override
+    public double[][] getDoubleArray(InputStream is) throws IOException {
+		int[][] vals = getPiexRgbArray(is);
+
+        /*
+         *  对获取的所有像素点的RGB值进行DCT计算
+         *  DCT算法是专门针对于图像压缩计算方法，
+         *  如果您感兴趣，请参看：
+         *  http://zh.wikipedia.org/wiki/%E7%A6%BB%E6%95%A3%E4%BD%99%E5%BC%A6%E5%8F%98%E6%8D%A2
+         */
+
+        double[][] dctVals = applyDCT(vals);
+        return dctVals;
+    }
+
+    @Override
+	public int[][] getPiexRgbArray(InputStream is) throws IOException {
+		BufferedImage img = ImageIO.read(is);
+		/*
+         *重置图片大小为：64*64pixs
+         */
+		img = resize(img, size, size);
+
+		/*
+         *将图片色调全部转换为一种灰度级色调，方便二进制
+         *处理，排除颜色对于图片匹配度的干扰
+         */
+		img = grayscale(img);
+
+		int[][] vals = new int[size][size];
+
+		for (int x = 0; x < img.getWidth(); x++) {
+            for (int y = 0; y < img.getHeight(); y++) {
+                vals[x][y] = getPixelRGB(img, x, y);
+            }
+        }
+		return vals;
+	}
+
 
 	private BufferedImage resize(BufferedImage image, int newWidth, int newHeight) {
 		 BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
 		 if(image != null){
 		     Graphics2D graph = resizedImage.createGraphics();
-		     graph.drawImage(image, 0, 0, newWidth, newHeight, null);
-		     graph.dispose(); 
+		     graph.drawImage(image, 0, 0, newWidth,newHeight, null);
+		     graph.dispose();
+//			 try {
+//			 	File file = new File(System.currentTimeMillis()+"resizeImg.png");
+//				 System.out.println(file.getAbsolutePath());
+//				 ImageIO.write(resizedImage,"png",file);
+//			 } catch (IOException e) {
+//				 e.printStackTrace();
+//			 }
 		 }else{
 			 System.err.println("Getting images meet trouble when re-size it!");
 		 }
@@ -135,9 +168,9 @@ public class ImageCompareImpl implements ImageCompareInterface{
 	}
 
 
-	private double[][] applyDCT(double[][] f) {
+	private double[][] applyDCT(int[][] f) {
 	     int N = size;
-	      
+
 	     double[][] F = new double[N][N];
 	      for (int u=0;u<N;u++) {
 	        for (int v=0;v<N;v++) {

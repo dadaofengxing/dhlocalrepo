@@ -8,13 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImageReader {
-	private static final String sourceFolderPath = System.getProperty("user.dir") + "/SourceImages/";
-	private static final String targetFolderPath = System.getProperty("user.dir") + "/TargetImages/";
-	
+	private static final String floderPath = ImageReader.class.getResource("/").getPath();
+	private static final String sourceFolderPath = floderPath + "SourceImages/";
+	public static final String targetFolderPath = floderPath + "TargetImages/";
+	public static final String newImages = floderPath + "newImages/";
+
 	public static List<String> getSourceImageFileNameList() {
 		long startTime = System.nanoTime();
 		List<String> sourceImageFileNameList = new ArrayList<String>();
-		File file = new File(sourceFolderPath);
+		File file = new File(sourceFolderPath.substring(1));
 		if(file.isDirectory()){
 			String[] nameList = file.list();
 			if(nameList != null){
