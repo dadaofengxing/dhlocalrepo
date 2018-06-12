@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("template")
+
 public class DhTemplateController {
 
     @RequestMapping(value = "getTemplateList",produces = "application/json;charset=UTF-8")
