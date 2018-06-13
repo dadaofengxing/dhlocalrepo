@@ -1,8 +1,12 @@
 package com.dh.ddfx.controller;
 
+import com.dh.ddfx.model.entity.house.HouseInfoEntity;
+import com.dh.ddfx.model.request.house.AddHouseInfoRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,5 +26,14 @@ public class DhTemplateController {
     @ApiOperation(value = "获取模板列表",nickname = "duh")
     public String getTemplateList(){
         return "template";
+    }
+
+    @RequestMapping(value = "getEntity",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    @ApiOperation(value = "获取实体",nickname = "duh")
+    public HouseInfoEntity getEntity(@RequestBody AddHouseInfoRequest request){
+        HouseInfoEntity entity = new HouseInfoEntity();
+        BeanUtils.copyProperties(request,entity);
+        return entity;
     }
 }
