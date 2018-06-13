@@ -1,7 +1,12 @@
 package com.dh.ddfx.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.context.request.async.DeferredResult;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -11,12 +16,19 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author duh on 2018/6/12 16:55.
  * Email:duh@elab-plus.com
  * Version:v1.0
  */
+@Configuration
+@EnableWebMvc
+@EnableSwagger2
+@ComponentScan(basePackages = {"com.dh.ddfx.controller"}, includeFilters = {
+        @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class})
+})
 public class DhSwaggerConfig extends WebMvcConfigurerAdapter{
     @Bean
     public Docket createRestApi() {
@@ -33,10 +45,10 @@ public class DhSwaggerConfig extends WebMvcConfigurerAdapter{
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("API文档").description("API文档").termsOfServiceUrl(
-                "http://localhost:8080/api")
-                .contact(new Contact("abc@qq.com",
-                        "http://www.cnblogs.com/qiang-cnblog",
-                        "abc@qq.com")).version("2.0").build();
+                "http://localhost:8095/api")
+                .contact(new Contact("417865157@qq.com",
+                        "http://47.96.100.43:9006/fantuo888/index.htm",
+                        "417865157@qq.com")).version("2.0").build();
     }
 
     @Override
