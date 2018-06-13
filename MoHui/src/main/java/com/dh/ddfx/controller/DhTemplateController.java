@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * @author duh on 2018/5/14 20:26.
  * Email:duh@elab-plus.com
@@ -48,5 +50,12 @@ public class DhTemplateController {
     @ApiOperation(value = "测试service",nickname = "duh")
     public HouseVideoRealtimeListResponse testService(){
         return templateService.testService();
+    }
+
+    @RequestMapping(value = "testMybatis",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    @ApiOperation(value = "测试testMybatis",nickname = "duh")
+    public List<HouseInfoEntity> testMybatis(){
+        return templateService.testMybatis();
     }
 }
