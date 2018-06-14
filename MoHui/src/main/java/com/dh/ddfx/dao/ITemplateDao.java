@@ -1,6 +1,6 @@
 package com.dh.ddfx.dao;
 
-import com.dh.ddfx.model.entity.house.HouseInfoEntity;
+import com.dh.ddfx.model.entity.api.ApiEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -8,10 +8,11 @@ import java.util.List;
 /**
  * @author DELL
  */
+@Repository
 public interface ITemplateDao {
     /**
      * 获取列表
      * @return
      */
-    List<HouseInfoEntity> getResponseList();
+    List<ApiEntity> getResponseList();
 }

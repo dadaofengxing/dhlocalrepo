@@ -1,7 +1,7 @@
 package com.dh.ddfx.service.impl;
 
 import com.dh.ddfx.dao.ITemplateDao;
-import com.dh.ddfx.model.entity.house.HouseInfoEntity;
+import com.dh.ddfx.model.entity.api.ApiEntity;
 import com.dh.ddfx.model.response.house.HouseVideoRealtimeListResponse;
 import com.dh.ddfx.service.ITemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class TemplateServiceImpl implements ITemplateService {
      * @return
      */
     @Override
-    public List<HouseInfoEntity> testMybatis() {
+    public List<ApiEntity> testMybatis() {
         return templateDao.getResponseList();
     }
 }

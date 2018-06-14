@@ -2,8 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dh.ddfx.dao.TemplateDao">
-    <select id="getResponseList" resultMap="HouseInfoEntity.class">
-        select * from house
+<mapper namespace="com.dh.ddfx.dao.ITemplateDao">
+
+    <select id="getResponseList" resultType="com.dh.ddfx.model.entity.api.ApiEntity">
+        select * from apis
     </select>
 </mapper>

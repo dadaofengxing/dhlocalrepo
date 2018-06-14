@@ -1,6 +1,6 @@
 package com.dh.ddfx.controller;
 
-import com.dh.ddfx.model.entity.house.HouseInfoEntity;
+import com.dh.ddfx.model.entity.api.ApiEntity;
 import com.dh.ddfx.model.request.house.AddHouseInfoRequest;
 import com.dh.ddfx.model.response.house.HouseVideoRealtimeListResponse;
 import com.dh.ddfx.service.ITemplateService;
@@ -39,8 +39,8 @@ public class DhTemplateController {
     @RequestMapping(value = "getEntity",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     @ResponseBody
     @ApiOperation(value = "获取实体",nickname = "duh")
-    public HouseInfoEntity getEntity(@RequestBody AddHouseInfoRequest request){
-        HouseInfoEntity entity = new HouseInfoEntity();
+    public ApiEntity getEntity(@RequestBody AddHouseInfoRequest request){
+        ApiEntity entity = new ApiEntity();
         BeanUtils.copyProperties(request,entity);
         return entity;
     }
@@ -55,7 +55,7 @@ public class DhTemplateController {
     @RequestMapping(value = "testMybatis",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     @ResponseBody
     @ApiOperation(value = "测试testMybatis",nickname = "duh")
-    public List<HouseInfoEntity> testMybatis(){
+    public List<ApiEntity> testMybatis(){
         return templateService.testMybatis();
     }
 }
