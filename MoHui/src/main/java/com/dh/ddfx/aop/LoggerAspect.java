@@ -56,7 +56,11 @@ public class LoggerAspect {
     @AfterReturning(value = "declareJoinPointExpression()",returning = "result1")
     public void afterReturnMethod(JoinPoint point,Object result1){
         String methodName = point.getSignature().getName();
-        System.out.println("this method "+ methodName+" return result is "+result1);
+        String resultStr = "";
+        if(result1.toString().length() > 100){
+            resultStr = result1.toString().substring(0,100);
+        }
+        System.out.println("this method "+ methodName+" return result is "+resultStr);
     }
 
     /**
@@ -87,8 +91,12 @@ public class LoggerAspect {
             System.out.println("around --- The method "+ methodName+" start. param<"+ Arrays.asList(point.getArgs())+">");
             //执行目标方法
             result = point.proceed();
+            String resultStr = "";
+            if(result.toString().length() > 100){
+                resultStr = result.toString().substring(0,100);
+            }
             //返回通知
-            System.out.println("around --- The method "+ methodName+" end. result<"+ result+">");
+            System.out.println("around --- The method "+ methodName+" end. result<"+ resultStr+">");
         } catch (Throwable e) {
             //异常通知
             System.out.println("around --- this method "+methodName+" end.ex message<"+e+">");
