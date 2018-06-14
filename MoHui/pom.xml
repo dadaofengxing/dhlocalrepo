@@ -172,5 +172,16 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>5.1.25</version>
             </dependency>
+            <!--添加切面-->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>1.8.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>1.8.9</version>
+            </dependency>
         </dependencies>
 </project>
