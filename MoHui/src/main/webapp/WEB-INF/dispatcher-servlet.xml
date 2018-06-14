@@ -7,12 +7,17 @@
     <mvc:annotation-driven></mvc:annotation-driven>
     <context:component-scan base-package="com.dh.ddfx.controller,com.dh.ddfx.service,com.dh.ddfx.dao"></context:component-scan>
 
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <value>classpath:database.properties</value>
+        </property>
+    </bean>
     <!--  swagger静态文件路径 -->
     <mvc:resources mapping="/swagger/**" location="/WEB-INF/swagger/" cache-period="31556926"/>
     <mvc:default-servlet-handler />
     <bean class="com.dh.ddfx.config.DhSwaggerConfig" />
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="driverClassName" value="${default.driverClassName}"></property>
         <property name="url" value="${default.url}"></property>
         <property name="username" value="${default.username}"></property>
         <property name="password" value="${default.password}"></property>
