@@ -1,1 +1,3 @@
-size: this is size value
+spring:
+  profiles:
+    active: prod

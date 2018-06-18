@@ -1,0 +1,6 @@
+size: this is dev value
+mysql:
+  url: jdbc:mysql://localhost/system?characterEncoding=UTF-8&connectTimeout=60000&socketTimeout=60000
+  driverName: com.mysql.jdbc.Driver
+  userName: root
+  password: root123
