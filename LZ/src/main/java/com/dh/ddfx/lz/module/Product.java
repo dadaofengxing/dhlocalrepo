@@ -7,12 +7,13 @@ package com.dh.ddfx.lz.module;
 public class Product {
     private String id;
     private String src;
-    private String length;
-    private String renLength;
-    private String bingLength;
-    private String weight;
+    private String length;//总长
+    private String renLength;//刃长
+    private String bingLength;//柄长
+    private String weight;//种高粱
     private int index;
     private int status;
+    private String otherProp;
 
     public String getId() {
         return id;
@@ -76,5 +77,13 @@ public class Product {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getOtherProp() {
+        return otherProp;
+    }
+
+    public void setOtherProp(String otherProp) {
+        this.otherProp = otherProp;
     }
 }

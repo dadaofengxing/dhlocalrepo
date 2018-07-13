@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>test</title>
+    <link type="text/css" href="base.css" tppabs="http://www.sgl1885.com/css/base.css" rel="stylesheet"/>
+    <script src="jquery-1.9.1.js" type="application/javascript"></script>
+    <script src="jquery-1.11.2.min.js" type="application/javascript"></script>
+    <script src="jquery.min.js" type="application/javascript"></script>
+</head>
+<body style="BACKGROUND: black" onload="liclick();">
+<header>
+    <div class="menu_wrap">
+        <div class="menu layout">
+            <ul>
+                <li><div onclick="showContent(1);" class="a_on" tppabs="">首页</div></li>
+                <li><div onclick="showContent(2);" >产品定制</div></li>
+                <li><div onclick="showContent(3);" >买家留言</div></li>
+                <li><div onclick="showContent(4);"  tppabs="">介绍</div></li>
+            </ul>
+        </div>
+    </div>
+
+    <iframe id="iframe" class="content"  frameborder=0   border=0   width=100%    height=500px   src="display.html"></iframe>
+</header>
+
+
+<script>
+    function liclick() {
+        $("ul").on("click", "li", function () {
+            $(this).children("div:eq(0)").addClass("a_on")
+            $(this).siblings().children("div").removeClass("a_on");
+        })
+
+    }
+    function showContent(index) {
+        var content = $(".content");
+        if(index==1){
+            $(window.parent.document).find("#iframe").attr("src","display.html");
+        }else if(index==2){
+            $(window.parent.document).find("#iframe").attr("src","chanpindingzhi.html");
+        }else if(index==3){
+            $(window.parent.document).find("#iframe").attr("src","liuyan.html");
+        }else if(index==4){
+            $(window.parent.document).find("#iframe").attr("src","jieshao.html");
+        }
+    }
+
+    function setIframeHeight(iframe) {
+        if (iframe) {
+            var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+            if (iframeWin.document.body) {
+                iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+            }
+        }
+    };
+
+    window.onload = function () {
+        liclick();
+        setIframeHeight(document.getElementById('iframe'));
+    };
+</script>
+</body>
+
+</html>

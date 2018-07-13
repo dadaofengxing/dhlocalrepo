@@ -31,7 +31,7 @@ public class ProductServiceImpl implements IProductService {
     }
     @Override
     public PageModel<Product> list(PageCommonRequest request) {
-        int begin = request.getPageNo()*request.getPageSize();
+        int begin = (request.getPageNo()-1)*request.getPageSize();
         int end = begin + request.getPageSize();
         if(productList.size() < end){
             end = productList.size();

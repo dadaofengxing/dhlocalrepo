@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑页</title>
+    <link rel="stylesheet" type="text/css" href="css/display_css.css" />
+    <script src="jquery-1.9.1.js" type="application/javascript"></script>
+    <script src="jquery-1.11.2.min.js" type="application/javascript"></script>
+    <script src="jquery.min.js" type="application/javascript"></script>
+    <script src="js/display.js" type="application/javascript"></script>
+    <script type="text/javascript">
+
+        $(function(){
+            showEditImg();
+        });
+        function addRow() {
+            var item = {"imgSrc":"pic1.png","imgDesc":"haljofwoefjow"};
+            imageStyle[imageStyle.length] = item;
+            localStorage.setItem("imageStyle",JSON.stringify(imageStyle))
+            showEditImg();
+        };
+
+
+        function editMethod(type) {
+
+            console.log('edit'+type);
+            var item = document.getElementById('title'+type);
+            // item.removeAttribute("readOnly");
+
+        }
+
+        function saveValue(type) {
+            var item = document.getElementById('title'+type);
+            // item.setAttribute("readOnly",'true');
+            var value = item.value;
+            var key = "title"+type;
+            console.log('value = '+value);
+            console.log('key = '+key);
+            // window.localStorage.setItem(key, value);
+            imageStyle[type]=$.parseJSON(value);
+            localStorage.setItem("imageStyle",JSON.stringify(imageStyle))
+        }
+
+
+    </script>
+</head>
+<body>
+
+<table style="width: 100%; height: auto; margin: auto; border-collapse:separate; border-spacing:0px 10px;" id="edit_table">
+
+    <tbody>
+
+
+    </tbody>
+
+</table>
+
+<div style="width: 100%; height: 35px; background: aquamarine; text-align: center; line-height: 35px;" onclick="addRow()">增加一行</div>
+
+</body>
+</html>
