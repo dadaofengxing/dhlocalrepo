@@ -1,2 +1,17 @@
 server:
   port: 9007
+qiniu:
+  accessKey: RPAwJZUv4x3vlLdGMatQvV7G9QCJZj6MReV63Ndo
+  secretKey: aUwrpCh_v-4IMzkOUP-FNNGJZXXB_T_rRhSm9lSK
+  bucketName: laoz
+  resultUrl: http://pbssh1ynk.bkt.clouddn.com/
+uploadconfig:
+  tempStoragePath: qiniu
+  base64Folder: base64
+  fileMaxSize: 5
+  totalFileMaxSize: 50
+  exts: png,jpg,avi,mp4,pdf
+spring:
+  servlet:
+    multipart:
+      max-file-size: 15000000
