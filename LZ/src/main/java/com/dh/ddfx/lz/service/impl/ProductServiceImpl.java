@@ -1,5 +1,6 @@
 package com.dh.ddfx.lz.service.impl;
 
+import com.dh.ddfx.lz.config.QiNiuConf;
 import com.dh.ddfx.lz.module.Product;
 import com.dh.ddfx.lz.module.request.PageCommonRequest;
 import com.dh.ddfx.lz.module.request.ProductUpdateRequest;
@@ -10,7 +11,9 @@ import com.dh.ddfx.lz.utils.FileUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +28,14 @@ public class ProductServiceImpl implements IProductService {
     private List<Product> deletedProductList = new ArrayList<>();
     private static int index = 0;
     private static Gson gson = new Gson();
+    @Autowired
+    QiNiuConf qiNiuConf;
     static{
         String list = FileUtils.readContent("product.json");
         productList = gson.fromJson(list,new TypeToken<List<Product>>(){}.getType());
+        if(null == productList){
+            productList = new ArrayList<>();
+        }
     }
     @Override
     public PageModel<Product> list(PageCommonRequest request) {
@@ -47,6 +55,10 @@ public class ProductServiceImpl implements IProductService {
         if(index == 0 && productList.size() > 0){
             String maxId = getMaxId();
             index = Integer.parseInt(maxId);
+        }
+
+        if(!ObjectUtils.isEmpty(request.getSrc())){
+            request.setSrc(qiNiuConf.getResultUrl()+request.getSrc());
         }
         request.setId((index++)+"");
         productList.add(request);
@@ -90,5 +102,16 @@ public class ProductServiceImpl implements IProductService {
         String path = "deleteProduct.json";
         String content = gson.toJson(deletedProductList);
         FileUtils.coverFileContent(path,content);
+    }
+
+    @Override
+    public ResponseCommonModel updateProp(ProductUpdateRequest request) {
+        Product product = productList.get(request.getIndex());
+        product.setOtherProp(request.getOtherProp());
+        productList.set(request.getIndex(),product);
+        updateFile();
+        ResponseCommonModel responseCommonModel = new ResponseCommonModel();
+        responseCommonModel.setId(product.getId());
+        return responseCommonModel;
     }
 }

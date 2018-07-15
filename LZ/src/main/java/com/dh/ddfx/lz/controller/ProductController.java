@@ -10,8 +10,6 @@ import com.dh.ddfx.lz.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 /**
  * @author DELL
@@ -45,6 +43,11 @@ public class ProductController {
     @PostMapping(value = "update",produces = "application/json;charset=UTF-8")
     public ResponseCommonModel update(@RequestBody ProductUpdateRequest request){
         ResponseCommonModel result = productService.update(request);
+        return result;
+    }
+    @PostMapping(value = "updateProp",produces = "application/json;charset=UTF-8")
+    public ResponseCommonModel updateProp(@RequestBody ProductUpdateRequest request){
+        ResponseCommonModel result = productService.updateProp(request);
         return result;
     }
 }

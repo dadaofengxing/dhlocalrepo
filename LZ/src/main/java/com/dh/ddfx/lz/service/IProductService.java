@@ -14,4 +14,6 @@ public interface IProductService {
     ResponseCommonModel delete(String id);
 
     ResponseCommonModel update(ProductUpdateRequest request);
+
+    ResponseCommonModel updateProp(ProductUpdateRequest request);
 }

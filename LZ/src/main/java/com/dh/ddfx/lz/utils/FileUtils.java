@@ -1,5 +1,6 @@
 package com.dh.ddfx.lz.utils;
 
+import com.dh.ddfx.lz.constant.Constant;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -13,7 +14,26 @@ public class FileUtils {
     private static BufferedReader bufferedReader;
     private static PrintWriter printWriter;
 
+    public static void initJsonFile(){
+        File file = new File(Constant.PRODUCT_FILE);
+        File file2 = new File(Constant.DELETE_PRODUCT_FILE);
+        if(!file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(!file2.exists()){
+            try {
+                file2.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public static String readContent(String filePath){
+//        initJsonFile();
         StringBuffer stringBuffer = new StringBuffer("");
         try {
             bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));

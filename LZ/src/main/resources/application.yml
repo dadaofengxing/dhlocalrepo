@@ -1,5 +1,5 @@
 server:
-  port: 9011
+  port: 9017
 qiniu:
   accessKey: RPAwJZUv4x3vlLdGMatQvV7G9QCJZj6MReV63Ndo
   secretKey: aUwrpCh_v-4IMzkOUP-FNNGJZXXB_T_rRhSm9lSK
