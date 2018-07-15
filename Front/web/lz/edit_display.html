@@ -7,16 +7,15 @@
     <script src="jquery-1.9.1.js" type="application/javascript"></script>
     <script src="jquery-1.11.2.min.js" type="application/javascript"></script>
     <script src="jquery.min.js" type="application/javascript"></script>
-    <script src="js/display.js" type="application/javascript"></script>
+    <script src="js/display2.js" type="application/javascript"></script>
     <script type="text/javascript">
 
         $(function(){
             showEditImg();
         });
         function addRow() {
-            var item = {"imgSrc":"pic1.png","imgDesc":"haljofwoefjow"};
-            imageStyle[imageStyle.length] = item;
-            localStorage.setItem("imageStyle",JSON.stringify(imageStyle))
+            var product = {"src":"","length":"0","renLength":"0","bingLength":"0","weight":"0","otherProp":"请输入属性"};
+            addProduct(product);
             showEditImg();
         };
 
@@ -27,18 +26,6 @@
             var item = document.getElementById('title'+type);
             // item.removeAttribute("readOnly");
 
-        }
-
-        function saveValue(type) {
-            var item = document.getElementById('title'+type);
-            // item.setAttribute("readOnly",'true');
-            var value = item.value;
-            var key = "title"+type;
-            console.log('value = '+value);
-            console.log('key = '+key);
-            // window.localStorage.setItem(key, value);
-            imageStyle[type]=$.parseJSON(value);
-            localStorage.setItem("imageStyle",JSON.stringify(imageStyle))
         }
 
 
